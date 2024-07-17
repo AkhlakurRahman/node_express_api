@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import ip from 'ip';
 import { Code } from './enums/code.enum';
@@ -50,7 +50,7 @@ export class App {
 	private routes(): void {
 		this.app.use('/patients', patientRoutes);
 
-		this.app.get('/', (_, res) =>
+		this.app.get('/', (req: Request, res: Response) =>
 			res
 				.status(Code.OK)
 				.send(
@@ -62,7 +62,7 @@ export class App {
 				)
 		);
 
-		this.app.all('*', (_, res) =>
+		this.app.all('*', (req: Request, res: Response) =>
 			res
 				.status(Code.NOT_FOUND)
 				.send(
