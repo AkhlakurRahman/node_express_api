@@ -28,7 +28,7 @@ export const getPatientById = async (req: Request, res: Response): Promise<Respo
 
     try {
         const pool = await connection()
-        const result: ResultSet  = await pool.query(QUERY.SELECT_PATIENTS, [req.params.patientId])
+        const result: ResultSet  = await pool.query(QUERY.SELECT_PATIENT, [req.params.patientId])
 
         if((result[0] as Array<ResultSet>).length > 0) {
             return res.status(Code.OK).send(new HttpResponse(Code.OK, Status.OK, 'Patient retrieved', result[0]))
@@ -48,7 +48,7 @@ export const createPatient = async (req: Request, res: Response): Promise<Respon
 
     try {
         const pool = await connection()
-        const result: ResultSet  = await pool.query(QUERY.SELECT_PATIENTS, Object.values(patient))
+        const result: ResultSet  = await pool.query(QUERY.CREATE_PATIENT, Object.values(patient))
         patient = {id: (result[0] as ResultSetHeader).insertId, ...req.body }
         
         return res.status(Code.CREATED).send(new HttpResponse(Code.CREATED, Status.CREATED, 'Patient created', patient))
